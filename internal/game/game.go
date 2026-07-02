@@ -3,12 +3,14 @@ package game
 import (
 	"context"
 	"fists/config"
+	"fists/internal/entity"
 	"log/slog"
 )
 
 type Game struct {
-	cfg *config.Config
-	log *slog.Logger
+	cfg      *config.Config
+	log      *slog.Logger
+	battleCh chan *entity.Battle
 }
 
 func New(cfg *config.Config, log *slog.Logger) *Game {
