@@ -27,6 +27,7 @@ func NewRound(log *slog.Logger, battleId uuid.UUID, timerDuration time.Duration,
 		timer:    time.NewTimer(timerDuration),
 		gamers:   gamers,
 		hits:     make([]*Hit, 0),
+		hitsCh:   make(chan *Hit, 2),
 	}
 	log.Info("round created", "id", r.id)
 	return r
@@ -57,10 +58,6 @@ func (r *Round) Start(ctx context.Context) {
 
 func (r *Round) CalculateDamage() {
 	r.log.Info("round calculated damage", "id", r.id)
-	//if len(r.hits) == 0 {
-	//	r.log.Info("round hits is empty", "id", r.id)
-	//	return
-	//}
 	for _, hero := range r.gamers {
 		var heroHit *Hit
 		for _, h := range r.hits {
@@ -83,4 +80,12 @@ func (r *Round) CalculateDamage() {
 		}
 	}
 	return
+}
+
+func (r *Round) GetHitsChannel() chan *Hit {
+	return r.hitsCh
+}
+
+func (r *Round) GetId() uuid.UUID {
+	return r.id
 }

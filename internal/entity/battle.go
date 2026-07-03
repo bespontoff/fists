@@ -43,6 +43,9 @@ func NewBattle(log *slog.Logger, players []*Hero, timerDuration time.Duration, b
 		bid:           bid,
 		createdAt:     time.Now(),
 	}
+	for _, player := range players {
+		player.CurrentBattleId = b.id
+	}
 	log.Info("battle created", "id", b.id)
 	return b
 }

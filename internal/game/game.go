@@ -36,6 +36,19 @@ func (g *Game) Run(ctx context.Context) {
 	tid := bg.RegisterDuel(bob, 1, time.Minute)
 	duel, _ := bg.GetTicket(tid)
 	duel.RegisterGamer(alice)
+
+	time.Sleep(time.Second)
+	battle, _ := bg.GetBattle(bob.CurrentBattleId)
+	g.log.Debug("current battle", "battle", battle)
+
+	// round 1
+	currentRound := battle.CurrentRound()
+	hitsCh := currentRound.GetHitsChannel()
+	hitsCh <- entity.NewHit(currentRound.GetId(), bob, alice, entity.HeadHit, entity.HeadDefence)
+	hitsCh <- entity.NewHit(currentRound.GetId(), alice, bob, entity.ChestHit, entity.ChestDefence)
+	time.Sleep(time.Second)
+	g.log.Debug("round heroes", "bob", bob, "alice", alice)
+
 	select {
 	case <-ctx.Done():
 		g.log.Info("game context canceled")

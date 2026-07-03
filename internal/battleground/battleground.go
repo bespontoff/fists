@@ -66,3 +66,11 @@ func (b *BattleGround) StartEventLoop(ctx context.Context) {
 		}
 	}
 }
+
+func (b *BattleGround) GetBattle(id uuid.UUID) (*entity.Battle, error) {
+	battle, ok := b.registeredBattles[id]
+	if !ok {
+		b.log.Error("Could not find battle", "id", id)
+	}
+	return battle, nil
+}
