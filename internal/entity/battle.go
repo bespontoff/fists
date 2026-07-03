@@ -73,3 +73,11 @@ func (b *Battle) Start() {
 		}
 	}
 }
+
+func (b *Battle) GetId() uuid.UUID {
+	return b.id
+}
+
+func (b *Battle) GetIdString() string {
+	return b.id.String()
+}
