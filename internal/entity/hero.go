@@ -11,7 +11,7 @@ type Hero struct {
 }
 
 func (h *Hero) DealDamage(i int) {
-	h.Health -= 1
+	h.Health -= i
 	if h.Health < 0 {
 		h.Health = 0
 	}
